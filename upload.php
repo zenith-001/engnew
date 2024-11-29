@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Establishing FTP connection
     $conn_id = ftp_connect($ftp_server);
     if (!$conn_id) {
-        error_log("FTP connection has failed: " . ftp_error($conn_id));
+        error_log("FTP connection has failed: Could not connect to $ftp_server");
         die("FTP connection has failed!");
     }
 
