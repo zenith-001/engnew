@@ -1,6 +1,11 @@
 <?php
 include 'db.php';
 
+// Set error reporting
+error_reporting(E_ALL);
+ini_set('log_errors', 'On');
+ini_set('error_log', 'path/to/your/error.log'); // Specify the path to your error log file
+
 $ftp_server = "localhost"; // Replace with your FTP server
 $ftp_username = "zenith1"; // Replace with your FTP username
 $ftp_password = "8038@Zenith"; // Replace with your FTP password
@@ -13,21 +18,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Establishing FTP connection
     $conn_id = ftp_connect($ftp_server);
-    $login_result = ftp_login($conn_id, $ftp_username, $ftp_password);
-
-    if (!$conn_id || !$login_result) {
+    if (!$conn_id) {
+        error_log("FTP connection has failed: " . ftp_error($conn_id));
         die("FTP connection has failed!");
+    }
+
+    $login_result = ftp_login($conn_id, $ftp_username, $ftp_password);
+    if (!$login_result) {
+        error_log("FTP login has failed for user: $ftp_username");
+        ftp_close($conn_id);
+        die("FTP login has failed!");
     }
 
     // Uploading the file
     $target_file = $ftp_directory . basename($file["name"]);
     if (ftp_put($conn_id, $target_file, $file["tmp_name"], FTP_BINARY)) {
         // File uploaded successfully, now insert into the database
-        $query = "INSERT INTO videos (title, description, file_path) VALUES (?, ?, ?)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$title, $description, $target_file]);
-        echo "The file has been uploaded successfully via FTP.";
+        try {
+            $query = "INSERT INTO videos (title, description, file_path) VALUES (?, ?, ?)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$title, $description, $target_file]);
+            echo "The file has been uploaded successfully via FTP.";
+        } catch (PDOException $e) {
+            error_log("Database insert failed: " . $e->getMessage());
+            echo "There was an error saving video details to the database.";
+        }
     } else {
+        error_log("There was an error uploading the file: " . $file["name"]);
         echo "There was an error uploading your file via FTP.";
     }
 
@@ -81,27 +98,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h1><i class="fas fa-upload"></i> Upload Your Video</h1>
-        <form id="uploadForm" onsubmit="uploadFile(event)">
-            <input type="text" name="title" placeholder="Video Title" required>
-            <textarea name="description" placeholder="Video Description" required></textarea>
-            <input type="file" name="video" accept="video/*" required>
-            <button id="uploadButton" type="submit"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+        <form id="uploadForm" on submit="uploadFile(event)" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="video">Select video:</label>
+            <input type="file" id="video" name="video" accept="video/*" required>
+
+            <button type="submit" id="uploadButton">Upload Video</button>
         </form>
-        <div id="progressContainer">
-            <div id="progressBar"></div>
-        </div>
-        <div id="progressText"></div>
-        <div class="video-list">
-            <div class="video-item">
-                <h2><i class="fas fa-video"></i> Sample Video 1</h2>
-                <p>Uploaded on: November 26, 2024</p>
-                <a href="#"><i class="fas fa-eye"></i> View</a>
-            </div>
-            <div class="video-item">
-                <h2><i class="fas fa-video"></i> Sample Video 2</h2>
-                <p>Uploaded on: November 26, 2024</p>
-                <a href="#"><i class="fas fa-eye"></i> View</a>
-            </div>
+        <div id="progressContainer" style="margin-top: 20px;">
+            <div id="progressBar" style="width: 0%; height: 20px; background-color: green;"></div>
+            <div id="progressText">0% uploaded</div>
         </div>
     </div>
 </body>
