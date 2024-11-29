@@ -1,0 +1,126 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Courier+Prime&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #1E1E1E;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    color: #1E90FF;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 400;
+}
+
+/* Form Styles */
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #1E90FF;
+    border-radius: 5px;
+    background-color: #2E2E2E;
+    color: #fff;
+    font-size: 16px;
+}
+
+button {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00BFFF;
+}
+
+/* Progress Bar Styles */
+#progressContainer {
+    margin-top: 20px;
+    background-color: #2E2E2E;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#progressBar {
+    height: 20px;
+    background-color: #1E90FF;
+    width: 0%;
+    transition: width 0.4s;
+}
+
+/* Progress Text */
+#progressText {
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Video List Styles */
+.video-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.video-item {
+    background-color: #1E1E1E;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    width: calc(48% - 20px);
+    position: relative;
+}
+
+.video-item h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.video-item p {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.video-item a {
+    text-decoration: none;
+    color: #1E90FF;
+    font-weight: 600;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.video-item a:hover {
+    text-decoration: underline;
+}
+
+/* FontAwesome Icons */
+.fa {
+    margin-right: 5px;
+}

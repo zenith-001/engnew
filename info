@@ -1,0 +1,7 @@
+/video_uploads
+    /uploads
+    index.php
+    upload.php
+    remover.php
+    watch.php
+    db.php
