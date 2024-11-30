@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h1><i class="fas fa-upload"></i> Upload Your Video</h1>
-        <form id="uploadForm" on submit="uploadFile(event)" enctype="multipart/form-data">
+        <form id="uploadForm" onsubmit="uploadFile(event)" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
 
