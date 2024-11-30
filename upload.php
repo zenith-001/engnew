@@ -4,7 +4,7 @@ include 'db.php';
 // Set error reporting
 error_reporting(E_ALL);
 ini_set('log_errors', 'On');
-ini_set('error_log', 'path/to/your/error.log'); // Specify the path to your error log file
+ini_set('error_log', __DIR__ . '/error.log');
 
 $ftp_server = "localhost"; // Replace with your FTP server
 $ftp_username = "zenith1"; // Replace with your FTP username
