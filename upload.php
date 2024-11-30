@@ -97,23 +97,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-upload"></i> Upload Your Video</h1>
-        <form id="uploadForm" onsubmit="uploadFile(event)" enctype="multipart/form-data">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-
-            <label for="video">Select video:</label>
-            <input type="file" id="video" name="video" accept="video/*" required>
-
-            <button type="submit" id="uploadButton">Upload Video</button>
-        </form>
-        <div id="progressContainer" style="margin-top: 20px;">
-            <div id="progressBar" style="width: 0%; height: 20px; background-color: green;"></div>
+        <h1><i class="fas fa-upload "></i> Upload Video</h1>
+        <form id="uploadForm" onsubmit="uploadFile(event)">
+            <input type="text" name="title" placeholder="Video Title" required>
+            <textarea name="description" placeholder="Video Description" required></textarea>
+            <input type="file" name="video" accept="video/*" required>
+            <button type="submit" id="uploadButton">Upload</button>
+            <div class="progress">
+                <div id="progressBar" style="width: 0%;"></div>
+            </div>
             <div id="progressText">0% uploaded</div>
-        </div>
+        </form>
     </div>
 </body>
 </html>
