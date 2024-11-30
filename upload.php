@@ -12,6 +12,8 @@ $ftp_password = "8038@Zenith"; // Replace with your FTP password
 $ftp_directory = "uploads/"; // Replace with the path on the FTP server where you want to store the videos
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    error_log("Upload initiated.");
+    
     $title = $_POST['title'];
     $description = $_POST['description'];
     $file = $_FILES['video'];
@@ -34,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $target_file = $ftp_directory . basename($file["name"]);
     if (ftp_put($conn_id, $target_file, $file["tmp_name"], FTP_BINARY)) {
         // File uploaded successfully, now insert into the database
+        error_log("File uploaded successfully: " . $file["name"]);
         try {
             $query = "INSERT INTO videos (title, description, file_path) VALUES (?, ?, ?)";
             $stmt = $pdo->prepare($query);
