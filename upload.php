@@ -1,11 +1,12 @@
 <?php
-include 'db.php';
+include 'db.php'; // Include your database connection file
 
 // Set error reporting
 error_reporting(E_ALL);
 ini_set('log_errors', 'On');
 ini_set('error_log', __DIR__ . '/error.log');
 
+// FTP configuration
 $ftp_server = "ftp.kushmaartproject.com.np"; // Replace with your FTP server
 $ftp_username = "zenith@kushmaartproject.com.np"; // Replace with your FTP username
 $ftp_password = "8038@Zenith"; // Replace with your FTP password
@@ -40,19 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Check if all chunks have been uploaded
         if ($chunkIndex + 1 == $totalChunks) {
-            // Combine chunks in order
-            $combinedFile = $localTargetFile;
-            for ($i = 0; $i < $totalChunks; $i++) {
-                $tempFile = $localTargetFile . '.' . $i . '.tmp';
-                if (file_exists($tempFile)) {
-                    $content = file_get_contents($tempFile);
-                    file_put_contents($combinedFile, $content, FILE_APPEND);
-                    unlink($tempFile);
-                }
-            }
-
-            // Move the combined file to the target directory
-            rename($tempTargetFile, $localTargetFile); // Rename the temporary file to the final filename
+            // Rename the temporary file to the final filename
+            rename($tempTargetFile, $localTargetFile);
 
             // Check if the local file exists before attempting to upload
             if (file_exists($localTargetFile)) {
@@ -81,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
                 ftp_close($ftp_conn);
             } else {
-                echo "Local file does not exist: " . $localTargetFile;
+                echo "Local file does not exist: ". $localTargetFile;
             }
         } else {
             echo "Chunk $chunkIndex uploaded successfully.";
