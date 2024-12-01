@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Move the combined file to the target directory
-            rename($combinedFile, $localTargetFile);
+            rename($tempTargetFile, $localTargetFile); // Rename the temporary file to the final filename
 
             // Check if the local file exists before attempting to upload
             if (file_exists($localTargetFile)) {
